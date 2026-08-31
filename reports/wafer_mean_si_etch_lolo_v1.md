@@ -224,14 +224,19 @@ more defensible comparison than an LSTM, GRU, or Transformer.
 
 ## Limitations
 
-1. Ten lots provide limited evidence for transfer to future campaigns.
-2. The target range is about 1.43 µm, so R² is sensitive to small residual changes.
-3. Conditioning is confounded with date and lot.
-4. Process readbacks observe chamber behavior; they are not controllable recipe settings.
-5. The model needs the completed trace, so it supports post-run prediction only.
-6. `si_etch` is derived from metrology that includes interpolation and measurement error.
-7. OES was excluded; a fair comparison requires the same wafers with and without OES.
-8. The current target is a wafer mean, not a reconstructed 89-site map.
+1. Generalization is assessed on 88 labeled wafers from only 10 lot/date groups on one tool.
+   Wafers within a lot share chamber history, and conditioning factors are partially confounded
+   with lot and date.
+2. This is end-of-run virtual metrology: the model uses the completed process trace to predict
+   mean silicon etch depth. It does not support pre-run recipe selection, early-run intervention,
+   or reconstruction of the 89-site wafer map.
+3. The silicon-etch target is derived from step-height and post-oxide measurements rather than
+   measured directly. Approximately 2% of post-oxide site values were spatially completed after
+   fit failures, adding uncertainty to the target.
+4. Coefficients and permutation importance describe predictive associations, not causal effects
+   of changing recipe settings or chamber conditions.
+5. The tested Gaussian-process intervals were not calibrated: nominal 95% intervals achieved
+   84.1% empirical coverage and are not suitable for automated metrology-skipping decisions.
 
 ## Next work
 

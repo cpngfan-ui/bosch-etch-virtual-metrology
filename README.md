@@ -165,18 +165,20 @@ inside the next model-family comparison rather than adopted from this single res
 
 ## Limitations
 
-- The dataset contains only ten lot/date groups, so lot-to-lot uncertainty remains large.
-- The model needs the completed process trace and cannot make a pre-run or early-run decision.
-- The 89-site silicon target is derived from step height and post-oxide thickness. Some
-  post-oxide fits were spatially completed, so the label contains measurement and interpolation
-  uncertainty.
-- Conditioning surface, conditioning count, date, and lot are not independently balanced.
-- Model coefficients and permutation results describe predictive association, not causal
-  recipe effects.
-- Gaussian-process intervals under-covered the held-out wafers: nominal 95% coverage was
-  84.1%, so they are not ready for a metrology-skip decision.
-- The approximately 7.9 GB optical-emission extension is outside this first benchmark.
-- The current target is one wafer mean; the model does not yet reconstruct the 89-site map.
+- Generalization is assessed on 88 labeled wafers from only 10 lot/date groups on one tool.
+  Wafers within a lot share chamber history, and conditioning factors are partially confounded
+  with lot and date.
+- This benchmark performs end-of-run virtual metrology: it uses the completed process trace to
+  predict mean silicon etch depth. It does not support pre-run recipe selection, early-run
+  intervention, or reconstruction of the 89-site wafer map.
+- The silicon-etch target is derived from step-height and post-oxide measurements rather than
+  measured directly. Approximately 2% of the post-oxide site values were spatially completed
+  after fit failures, adding uncertainty to the target.
+- Model coefficients and permutation importance describe predictive associations. They should
+  not be interpreted as causal effects of changing recipe settings or chamber conditions.
+- The tested Gaussian-process intervals were not calibrated: nominal 95% intervals achieved
+  84.1% empirical coverage. They are therefore not suitable for automated metrology-skipping
+  decisions.
 
 With 88 labeled wafers, I did not train an LSTM or Transformer on the raw traces. The thousands
 of timestamps within a run do not create thousands of independent wafer labels. The cycle
