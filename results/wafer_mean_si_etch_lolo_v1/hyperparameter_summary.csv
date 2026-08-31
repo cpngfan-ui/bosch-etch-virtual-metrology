@@ -1,0 +1,14 @@
+model_id,parameter,outer_fold_selection_counts,outer_fold_mode,final_all_data_value
+dummy_mean,(no tuned parameter),training mean: 10/10,training mean,training mean
+context_ridge,model__alpha,1.0: 4/10; 10.0: 4/10; 0.01: 1/10; 0.1: 1/10,1.0,1.0
+cycle_ridge,model__alpha,10.0: 8/10; 100.0: 1/10; 1.0: 1/10,10.0,10.0
+pls,model__n_components,5: 8/10; 3: 2/10,5,5
+elastic_net,model__alpha,0.01: 9/10; 0.1: 1/10,0.01,0.01
+elastic_net,model__l1_ratio,0.9: 7/10; 0.5: 2/10; 0.1: 1/10,0.9,0.9
+rbf_svr,model__C,1.0: 10/10,1.0,1.0
+rbf_svr,model__epsilon,0.05: 10/10,0.05,0.05
+rbf_svr,model__gamma,scale: 10/10,scale,scale
+pca_gpr,pca__n_components,5: 5/10; 3: 5/10,5,3
+extra_trees,model__max_depth,4: 10/10,4,4
+extra_trees,model__max_features,1.0: 10/10,1.0,1.0
+extra_trees,model__min_samples_leaf,3: 10/10,3,3

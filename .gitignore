@@ -1,0 +1,66 @@
+# Data and generated artifacts
+data/raw/**
+!data/raw/.gitkeep
+data/processed/**
+!data/processed/.gitkeep
+artifacts/
+outputs/
+tmp/
+*.log
+*.joblib
+
+# Keep compact benchmark summaries in Git. Full fold
+# models, inner-search tables, and sensitivity reruns are reproducible outputs.
+results/**
+!results/README.md
+!results/wafer_mean_si_etch_lolo_v1/
+results/wafer_mean_si_etch_lolo_v1/**
+!results/wafer_mean_si_etch_lolo_v1/comparison.csv
+!results/wafer_mean_si_etch_lolo_v1/all_metrics_by_lot.csv
+!results/wafer_mean_si_etch_lolo_v1/all_oof_predictions.csv
+!results/wafer_mean_si_etch_lolo_v1/all_cluster_bootstrap_intervals.csv
+!results/wafer_mean_si_etch_lolo_v1/paired_model_differences.csv
+!results/wafer_mean_si_etch_lolo_v1/primary_lot_differences.csv
+!results/wafer_mean_si_etch_lolo_v1/hyperparameter_summary.csv
+!results/wafer_mean_si_etch_lolo_v1/selected_hyperparameters_long.csv
+!results/wafer_mean_si_etch_lolo_v1/gpr_uncertainty_diagnostics.csv
+!results/wafer_mean_si_etch_lolo_v1/gpr_uncertainty_by_lot.csv
+!results/wafer_mean_si_etch_lolo_v1/cycle_ridge_block_permutation_summary.csv
+!results/wafer_mean_si_etch_lolo_v1/cycle_ridge_coefficient_stability.csv
+!results/wafer_mean_si_etch_lolo_v1/sensitivity/
+results/wafer_mean_si_etch_lolo_v1/sensitivity/**
+!results/wafer_mean_si_etch_lolo_v1/sensitivity/sensitivity_summary.csv
+!results/wafer_mean_si_etch_lolo_v1/sensitivity/feature_block_map.csv
+!results/wafer_mean_si_etch_lolo_v1/splits/
+results/wafer_mean_si_etch_lolo_v1/splits/**
+!results/wafer_mean_si_etch_lolo_v1/splits/outer_lolo.csv
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+build/
+dist/
+*.egg-info/
+.coverage
+htmlcov/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# macOS and editors
+.DS_Store
+.vscode/
+.idea/
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+
+# Local project files
+scripts/generate_results_workbook.mjs

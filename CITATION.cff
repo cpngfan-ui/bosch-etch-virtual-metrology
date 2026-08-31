@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it using the metadata below."
+title: "BOSCH Etch Virtual Metrology"
+type: software
+authors:
+  - family-names: "Fan"
+    given-names: "Changpeng"
+version: 0.1.0
+date-released: 2026-08-30
+repository-code: "https://github.com/cpngfan-ui/bosch-etch-virtual-metrology"
+url: "https://github.com/cpngfan-ui/bosch-etch-virtual-metrology"
+license: MIT
+abstract: >-
+  A wafer-level Virtual Metrology benchmark for public BOSCH plasma-etch data,
+  using cycle-aware telemetry features and nested lot-held-out validation.
+keywords:
+  - virtual metrology
+  - semiconductor manufacturing
+  - plasma etching
+  - BOSCH process
+  - grouped cross-validation

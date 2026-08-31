@@ -1,0 +1,87 @@
+experiment_id: wafer_mean_si_etch_lolo_v1
+seed: 20260830
+
+paths:
+  raw_dir: data/raw/zenodo_17122442
+  processed_dir: data/processed/wafer_mean_si_etch_lolo_v1
+  results_dir: results/wafer_mean_si_etch_lolo_v1
+  experiment_dir: experiments/mean_si_etch
+  figure_dir: figures/wafer_mean_si_etch_lolo_v1
+  report_path: reports/wafer_mean_si_etch_lolo_v1.md
+
+task:
+  deployment_point: post_run_pre_metrology
+  cohort: process_telemetry_joined_to_89_point_metrology
+  sample_unit: wafer_run
+  target_name: mean_si_etch_um
+  target_definition: arithmetic_mean_of_89_published_si_etch_values
+  primary_metric: macro_lot_mae_um
+  primary_model: cycle_ridge
+
+features:
+  process_schema: common_31_channels
+  remove_isolated_tail_timestamp: true
+  cycle_anchor: Stat3_Etch_MV_Gas4Flow
+  long_phase_proxy: Stat3_Etch_MV_Gas5Flow
+  active_window_proxy: Stat3_Etch_MV_SourceRFLoadPower
+  stable_cycle_indices_zero_based: [1, 98]
+  context:
+    - conditioning_count
+    - conditioning_surface_chuck
+    - conditioning_surface_si
+    - conditioning_surface_sio2
+    - wafer_order
+
+validation:
+  outer: leave_one_lot_out
+  inner: leave_one_lot_out
+  selection_metric: neg_mean_absolute_error
+  cluster_bootstrap_repetitions: 10000
+  permutation_repetitions: 50
+
+models:
+  dummy_mean:
+    role: baseline
+    features: context
+    learner: DummyRegressor(strategy=mean)
+  context_ridge:
+    role: context_ablation
+    features: context
+    learner: Ridge
+    alpha: [0.01, 0.1, 1.0, 10.0, 100.0]
+  cycle_ridge:
+    role: reference_model
+    features: cycle_context
+    learner: Ridge
+    alpha: [0.01, 0.1, 1.0, 10.0, 100.0]
+  pls:
+    role: model_comparison
+    features: cycle_context
+    learner: PLSRegression
+    n_components: [1, 2, 3, 5]
+  elastic_net:
+    role: model_comparison
+    features: cycle_context
+    learner: ElasticNet
+    alpha: [0.001, 0.01, 0.1]
+    l1_ratio: [0.1, 0.5, 0.9]
+  rbf_svr:
+    role: model_comparison
+    features: cycle_context
+    learner: SVR(kernel=rbf)
+    C: [0.3, 1.0, 3.0, 10.0]
+    gamma: [scale, 0.1]
+    epsilon: [0.05, 0.1]
+  pca_gpr:
+    role: model_comparison
+    features: cycle_context
+    learner: PCA_plus_GaussianProcessRegressor
+    pca_components: [2, 3, 5]
+    kernel: Constant_times_Matern_nu_1.5_plus_WhiteKernel
+  extra_trees:
+    role: model_comparison
+    features: cycle_context
+    learner: ExtraTreesRegressor
+    max_depth: [2, 4]
+    min_samples_leaf: [3, 5, 8]
+    max_features: [0.5, 1.0]

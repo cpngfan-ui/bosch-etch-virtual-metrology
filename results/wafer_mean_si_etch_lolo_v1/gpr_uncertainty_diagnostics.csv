@@ -1,0 +1,10 @@
+diagnostic,value
+mean_predicted_std_um,0.15462221831471654
+pearson_std_vs_abs_error,0.10953890674999481
+spearman_std_vs_abs_error,0.057236448170194784
+nominal_80_coverage,0.6590909090909091
+nominal_80_mean_width_um,0.39631269188461554
+nominal_90_coverage,0.7840909090909091
+nominal_90_mean_width_um,0.5086618331885702
+nominal_95_coverage,0.8409090909090909
+nominal_95_mean_width_um,0.6061079582006814
