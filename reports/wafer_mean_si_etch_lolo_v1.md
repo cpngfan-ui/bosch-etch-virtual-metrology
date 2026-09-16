@@ -1,6 +1,6 @@
 # Wafer-Mean Silicon Etch Virtual Metrology
 
-## Result at a glance
+## Results
 
 This analysis predicts final wafer-mean silicon etch from the process trace of one completed
 BOSCH run. The dataset provides 88 labeled wafers from 10 lots. One wafer/run is one sample;
@@ -24,13 +24,12 @@ confirmation on new lots because all model families were compared on the same he
 
 The figure below uses the chronologically first matched run, `2024-07-02_01`. The left
 panel shows recorded gas readbacks and cycle boundaries found without using the target. The
-right panel is the final 89-site metrology map for the same wafer. It is a data example, not a
-schematic.
+right panel shows the final 89-site metrology map for the same wafer.
 
 ![One real wafer run and its metrology map](../figures/wafer_mean_si_etch_lolo_v1/wafer_run_example.png)
 
-See the [data contract](../data/DATA_STRUCTURE.md) for field definitions and measurement
-lineage.
+See the [data dictionary](../data/DATA_STRUCTURE.md) for field definitions and the target
+calculation.
 
 ## Validation
 
@@ -215,12 +214,11 @@ gate without group-aware calibration.
 *The diagonal is the correct reference here: nominal interval coverage versus observed
 coverage. The shaded band is the interquartile range across the ten held-out lots.*
 
-## Why no sequence neural network
+## Sample size
 
-There are 88 labeled wafer runs across 10 lot groups, not roughly 280,000 independent
-timestamp labels. Copying the final wafer target onto every timestamp or cycle would create
-pseudo-replication. With this sample size, cycle summaries and regularized models provide a
-more defensible comparison than an LSTM, GRU, or Transformer.
+There are 88 labeled wafer runs across 10 lots. The timestamps within each run share one
+final wafer label. I used cycle summaries and regularized models to keep the number of
+parameters small; sequence neural networks haven't been evaluated here.
 
 ## Limitations
 
@@ -238,7 +236,7 @@ more defensible comparison than an LSTM, GRU, or Transformer.
 5. The tested Gaussian-process intervals were not calibrated: nominal 95% intervals achieved
    84.1% empirical coverage and are not suitable for automated metrology-skipping decisions.
 
-## Next work
+## Follow-up experiments
 
 1. Re-evaluate Elastic Net and RobustScaler-Ridge on newly collected lots.
 2. Predict a low-dimensional basis of the 89-site map within the same grouped validation.
