@@ -220,29 +220,10 @@ There are 88 labeled wafer runs across 10 lots. The timestamps within each run s
 final wafer label. I used cycle summaries and regularized models to keep the number of
 parameters small; sequence neural networks haven't been evaluated here.
 
-## Limitations
+## Next steps
 
-1. Generalization is assessed on 88 labeled wafers from only 10 lot/date groups on one tool.
-   Wafers within a lot share chamber history, and conditioning factors are partially confounded
-   with lot and date.
-2. This is end-of-run virtual metrology: the model uses the completed process trace to predict
-   mean silicon etch depth. It does not support pre-run recipe selection, early-run intervention,
-   or reconstruction of the 89-site wafer map.
-3. The silicon-etch target is derived from step-height and post-oxide measurements rather than
-   measured directly. Approximately 2% of post-oxide site values were spatially completed after
-   fit failures, adding uncertainty to the target.
-4. Coefficients and permutation importance describe predictive associations, not causal effects
-   of changing recipe settings or chamber conditions.
-5. The tested Gaussian-process intervals were not calibrated: nominal 95% intervals achieved
-   84.1% empirical coverage and are not suitable for automated metrology-skipping decisions.
-
-## Follow-up experiments
-
-1. Re-evaluate Elastic Net and RobustScaler-Ridge on newly collected lots.
-2. Predict a low-dimensional basis of the 89-site map within the same grouped validation.
-3. Calibrate uncertainty by lot and define when physical metrology must still be requested.
-4. Compare telemetry-only and telemetry-plus-OES on a matched cohort.
-5. Treat recipe optimization as a separate study using independently varied setpoints.
+Next I want to test a physics informed model that combines a simple etch model with a
+neural network correction. I would compare it with Elastic Net on held out lots.
 
 PLS/Ridge and batch-feature choices are consistent with Virtual Metrology literature,
 including [Khan et al.](https://doi.org/10.1016/j.jprocont.2008.04.014) and

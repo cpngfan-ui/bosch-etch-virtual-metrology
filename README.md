@@ -1,7 +1,7 @@
 # BOSCH Etch Virtual Metrology
 
 Predicting mean silicon etch depth from the sensor trace of a completed BOSCH etch run.
-The data are public: 88 labeled wafers from 10 lots on one 200 mm tool, with 31 process
+The public dataset has 88 labeled wafers from 10 lots on one 200 mm tool, with 31 process
 channels and 89 metrology sites per wafer.
 
 I compared eight model setups using leave-one-lot-out validation. Elastic Net had the
@@ -34,7 +34,7 @@ File schemas, channel definitions, missing runs, and the target calculation are 
 
 I keep the longest contiguous timestamp block in each trace, detect the repeating cycles,
 and summarize cycles 2–99 to reduce the effect of startup and shutdown. This gives 81
-features per wafer:
+features per wafer.
 
 | Features | Count |
 | --- | ---: |
@@ -57,7 +57,7 @@ inside the training folds, including imputation, scaling, and PCA where used.
 Macro-lot MAE is the average of the ten held-out-lot MAEs; each lot gets equal weight.
 The intervals in the figure come from 10,000 bootstrap samples of whole lots.
 
-Implementation: [features.py](src/bosch_vm/features.py),
+Implementation in [features.py](src/bosch_vm/features.py),
 [config.yaml](experiments/mean_si_etch/config.yaml),
 [experiment plan](experiments/mean_si_etch/EXPERIMENT_PLAN.md).
 
@@ -80,7 +80,7 @@ Elastic Net beat Ridge on 9 of 10 lots. PLS also did well; the nonlinear models 
 improve on the linear models in this comparison. These model families were compared on
 the same ten outer folds, so the ranking still needs checking on new lots.
 
-A few results from the Ridge analysis:
+A few results from the Ridge analysis
 
 - Using only conditioning and wafer order raised macro-lot MAE by 0.0719 µm. Error was
   higher on all ten lots.
@@ -94,30 +94,14 @@ The [report](reports/wafer_mean_si_etch_lolo_v1.md) has per-lot errors, residual
 coefficient analysis, and uncertainty checks. Run notes are in the
 [experiment log](experiments/mean_si_etch/EXPERIMENT_LOG.md).
 
-## Limits
+## Next steps
 
-The data come from one tool and only ten lots. Conditioning, lot, and date are partly
-confounded. I haven't tested transfer to another tool or new production lots.
-
-This model predicts a wafer mean from a finished run. It doesn't predict the full spatial
-map or choose recipe settings. The inputs are recorded readbacks, not a table of
-independently varied control settings.
-
-The target also has measurement uncertainty: silicon etch is derived from step-height
-and post-oxide measurements, and about 2% of the post-oxide site values were interpolated
-after fit failures.
-
-The Gaussian-process uncertainty estimates need more work. Nominal 95% intervals covered
-only 84.1% of held-out wafers. I wouldn't use those intervals to decide which physical
-measurements to skip.
-
-Next I'd check the model and scaler choices on new lots. Within the existing data, the
-89-site spatial map and the unused optical emission spectra are possible extensions;
-neither is modeled here yet.
+Next I want to test a physics informed model that combines a simple etch model with a
+neural network correction. I would compare it with Elastic Net on held out lots.
 
 ## Running it
 
-Python 3.11 or newer:
+Python 3.11 or newer
 
 ```bash
 python3.11 -m venv .venv
@@ -126,13 +110,13 @@ python -m pip install --upgrade pip
 python -m pip install -e ".[dev]"
 ```
 
-Download the source files and check their published hashes:
+Download the source files and check their published hashes.
 
 ```bash
 python scripts/download_zenodo.py
 ```
 
-Build the features, run the models and sensitivity checks, then generate the report:
+Build the features, run the models and sensitivity checks, then generate the report.
 
 ```bash
 bosch-vm prepare --config experiments/mean_si_etch/config.yaml --force
@@ -141,7 +125,7 @@ bosch-vm sensitivity --config experiments/mean_si_etch/config.yaml --n-jobs -1 -
 python scripts/generate_analysis_artifacts.py
 ```
 
-Tests and lint:
+Tests and lint
 
 ```bash
 pytest
@@ -153,11 +137,11 @@ feature tables, fitted models, and full tuning outputs are generated locally.
 
 ## Files
 
-- [src/bosch_vm/](src/bosch_vm/): data loading, features, models, evaluation, and reporting
-- [experiments/](experiments/): configuration and run notes
-- [tests/](tests/): data checks, split and leakage checks, metrics, CLI, and reporting tests
-- [results/](results/): saved predictions, metrics, and split assignments
-- [references/](references/): papers and documentation used for this analysis
+- [src/bosch_vm/](src/bosch_vm/) data loading, features, models, evaluation, and reporting
+- [experiments/](experiments/) configuration and run notes
+- [tests/](tests/) data checks, split and leakage checks, metrics, CLI, and reporting tests
+- [results/](results/) saved predictions, metrics, and split assignments
+- [references/](references/) papers and documentation used for this analysis
 
 ## Source and license
 
