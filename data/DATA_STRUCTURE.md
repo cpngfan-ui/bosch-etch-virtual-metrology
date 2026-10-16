@@ -412,8 +412,20 @@ The raw prefix for every channel is `Stat3_Etch_MV_`.
 ### Slow-state and context features
 
 The slow-state channels are `Heater2Temp`, `Heater3Temp`, `Heater4Temp`, `Gas2Flow`, and
-`Gas7Flow`. Each contributes its median active level and last-ten minus first-ten cycle drift.
-Gas2 and Gas7 remain anonymous flow readbacks.
+`Gas7Flow`. They use the same \(o_{ck}=(s_{ck}+l_{ck})/2\) cycle levels defined above,
+computed over cycles 2–99. Each channel contributes two features, for ten columns in total:
+
+| Suffix after `slow__<channel>__` | Definition |
+| --- | --- |
+| `active_median` | Median of the 98 stable-cycle \(o_{ck}\) values |
+| `late_minus_early` | Mean of \(o_{ck}\) over cycles 90–99 minus its mean over cycles 2–11 |
+
+Within each detected phase, samples are time-weighted; the short- and long-phase means then
+receive equal weight in \(o_{ck}\), regardless of their different durations. Despite its name,
+`active_median` is not the median of all raw samples in the source-active window. The
+source-active component is used separately for `timing__source_active_span_s`.
+These definitions follow [`extract_run_features`](../src/bosch_vm/features.py).
+Gas2 and Gas7 remain anonymous flow readbacks; their chemical identities are not assigned.
 
 The five context columns are:
 
