@@ -18,6 +18,8 @@ task:
   primary_metric: macro_lot_mae_um
   primary_model: cycle_ridge
 
+# Benchmark record only: this section does not override feature extraction.
+# Executed definitions: src/bosch_vm/constants.py and src/bosch_vm/features.py.
 features:
   process_schema: common_31_channels
   remove_isolated_tail_timestamp: true
@@ -39,6 +41,8 @@ validation:
   cluster_bootstrap_repetitions: 10000
   permutation_repetitions: 50
 
+# Benchmark record only: this section does not override estimators or search grids.
+# Executed definitions: build_model_configs and FROZEN_SEARCH_GRIDS in src/bosch_vm/models.py.
 models:
   dummy_mean:
     role: baseline

@@ -125,6 +125,14 @@ bosch-vm sensitivity --config experiments/mean_si_etch/config.yaml --n-jobs -1 -
 python scripts/generate_analysis_artifacts.py
 ```
 
+The `features` and `models` sections in `config.yaml` document the fixed benchmark;
+the current CLI does not apply them as overrides. For example, editing
+`models.cycle_ridge.alpha` in YAML alone will not change the Ridge search grid.
+The executed feature definitions are in [constants.py](src/bosch_vm/constants.py) and
+[features.py](src/bosch_vm/features.py); estimators and search grids are in
+[models.py](src/bosch_vm/models.py). The supported runtime settings are mapped by
+`_flatten_project_config` in [experiment.py](src/bosch_vm/experiment.py).
+
 Tests and lint
 
 ```bash

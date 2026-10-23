@@ -77,10 +77,14 @@ ten validation groups and their sizes are unequal.
 | `pca_gpr` | PCA of all 81 features | Matérn Gaussian process | Nonlinear prediction with model-based uncertainty |
 | `extra_trees` | All 81 features | Constrained Extra Trees | Tree-interaction comparison |
 
-The exact search grids, seed, paths, and feature settings are stored in `config.yaml` and in
-the generated experiment manifests. `cycle_ridge` is the reference model used for detailed
-feature and sensitivity diagnostics; the cross-validated comparison still reports every
-model.
+`config.yaml` records the benchmark settings, but its `features` and `models` sections are
+descriptive: the current CLI does not apply them as runtime overrides. Executed feature
+definitions live in [`constants.py`](../../src/bosch_vm/constants.py) and
+[`features.py`](../../src/bosch_vm/features.py); estimators and search grids live in
+[`models.py`](../../src/bosch_vm/models.py). Generated experiment manifests record the
+resolved run settings and model searches. `cycle_ridge` is the reference model used for
+detailed feature and sensitivity diagnostics; the cross-validated comparison still reports
+every model.
 
 ## Diagnostics
 
